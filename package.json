@@ -1,0 +1,29 @@
+{
+  "name": "tourism-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomganchos/tourism-backend.git"
+  },
+  "keywords": [
+    "node.js",
+    "express.js",
+    "mongodb"
+  ],
+  "author": "Tom Ganchos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomganchos/tourism-backend/issues"
+  },
+  "homepage": "https://github.com/tomganchos/tourism-backend#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongodb": "^2.2.33"
+  }
+}
