@@ -2,84 +2,63 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 
+var newsController = require('./controllers/news');
+var documentsOfCenterController = require('./controllers/about/documentsofcenter');
+var structureController = require('./controllers/about/structure');
+var moneyEconActivityController = require('./controllers/about/moneyeconactivity');
+var reportAboutUsController = require('./controllers/about/reportaboutus');
+var paideduserviesController = require('./controllers/about/paideduservies');
+var normativeBaseController = require('./controllers/about/normativebase');
+var controlController = require('./controllers/about/control');
+
+
+var publicationsController = require('./controllers/publications');
+var methlibController = require('./controllers/methlib');
+var tripController = require('./controllers/tripactivity');
+
+var db = require('./db');
 var app = express();
-var db;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
-
-var publications = [
-    {
-        id: 1,
-        name: 'КВН-викторина 2014',
-        link: 'http://pln-pskov.ru/society/162421.html',
-        date: '2014-03-03T00:00:00',
-        journal: 'ПЛН'
-    },
-    {
-        id: 2,
-        name: 'КВН-викторина 2014',
-        link: 'http://www.province.ru/pskov/news/item/891',
-        date: '2014-03-11T00:00:00',
-        journal: 'Псковская провинция'
-    },
-    {
-        id: 3,
-        name: 'Псковская земля',
-        link: 'http://www.gtrkpskov.ru/news-feed/news/6188-darya-zueva-iz-nevelskoj-shkoly-1-stala-pobeditelem-konkursa-kraevedcheskikh-rabot-v-pskove.html',
-        date: '2014-03-27T00:00:00',
-        journal: 'ГТРК'
-    }
-];
-
 
 
 app.get('/', function (req, res) {
     res.send('kek');
 });
 
-app.get('/publications', function (req, res) {
-    // res.send(publications);
-    db.collection('publications').find().toArray(function (err, docs) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        res.send(docs);
-    })
-});
+app.get('/news', newsController.all);
+app.get('/news/:id', newsController.oneNews);
+app.post('/news', newsController.addNews);
 
-app.post('/publications', function (req, res) {
+app.get('/documentsofcenter', documentsOfCenterController.all);
+app.get('/structure', structureController.all);
+app.get('/moneyeconactivity', moneyEconActivityController.all);
+app.get('/reportaboutus', reportAboutUsController.all);
+app.get('/paideduservies', paideduserviesController.all);
+app.get('/normativebase', normativeBaseController.all);
+app.get('/control', controlController.all);
 
-    console.log(req.body);
-    var publication = {
-        name: req.body.name,
-        link: req.body.link,
-        date: req.body.date,
-        journal: req.body.journal
-    };
+app.get('/methlib', methlibController.all);
+app.post('/methlib', methlibController.addDoc);
+app.delete('/methlib', methlibController.deleteDoc);
+app.put('/methlib', methlibController.updateDoc);
 
-    db.collection('publications').insertOne(publication, function (err, result) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        console.log(result);
-        res.send(publication);
-    })
-    // res.send(publication);
-});
-// app.put('/publications/:id')
 
-// app.listen(3012, function() {
-//     console.log('Backend started');
-// });
+app.get('/publications', publicationsController.all);
+app.get('/publications/:journal', publicationsController.journal);
+app.get('/publications/:from/:to', publicationsController.date);
+app.get('/publications/:from/:to/:journal', publicationsController.dateJournal);
+app.post('/publications', publicationsController.addPublication);
+app.delete('/publications', publicationsController.deletePublication);
+app.put('/publications', publicationsController.updatePublication);
 
-MongoClient.connect('mongodb://localhost:27017/tourism', function (err, database) {
+app.get('/trips', tripController.all);
+
+db.connect('mongodb://localhost:27017/tourismdb', function (err) {
     if (err) {
         return console.log(err);
     }
-    db = database;
     app.listen(3012, function() {
         console.log('Backend started');
     });
