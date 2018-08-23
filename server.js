@@ -12,6 +12,8 @@ var normativeBaseController = require('./controllers/about/normativebase');
 var controlController = require('./controllers/about/control');
 
 
+var plansController = require('./controllers/plans');
+
 var publicationsController = require('./controllers/publications');
 var methlibController = require('./controllers/methlib');
 var tripController = require('./controllers/tripactivity');
@@ -45,10 +47,18 @@ app.delete('/methlib', methlibController.deleteDoc);
 app.put('/methlib', methlibController.updateDoc);
 
 
-app.get('/publications', publicationsController.all);
-app.get('/publications/:journal', publicationsController.journal);
-app.get('/publications/:from/:to', publicationsController.date);
-app.get('/publications/:from/:to/:journal', publicationsController.dateJournal);
+
+app.get('/plans', plansController.getPlans);
+app.post('/plans', plansController.addPlan);
+app.put('/plans', plansController.updatePlan);
+app.delete('/plans', plansController.deletePlan);
+
+app.get('/publications', publicationsController.getPublications);
+app.get('/publications/:id', publicationsController.getPublication);
+// app.get('/publications', publicationsController.all);
+// app.get('/publications/:journal', publicationsController.journal);
+// app.get('/publications/:from/:to', publicationsController.date);
+// app.get('/publications/:from/:to/:journal', publicationsController.dateJournal);
 app.post('/publications', publicationsController.addPublication);
 app.delete('/publications', publicationsController.deletePublication);
 app.put('/publications', publicationsController.updatePublication);

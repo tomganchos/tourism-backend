@@ -1,46 +1,26 @@
 var Publications = require('../models/publications');
 
 // GET
-exports.all = function (req, res) {
-    Publications.all(function (err, docs) {
+exports.getPublications = function(req, res) {
+    console.log(req.query);
+    Publications.getPublications(req.query, function (err, docs) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
-        res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
+        // res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
         // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
         res.send(docs);
     })
 };
-exports.journal = function (req, res) {
-    Publications.journal(req.params['journal'], function (err, docs) {
+exports.getPublication = function(req, res) {
+    console.log(req.params);
+    Publications.getPublication(req.params['id'], function (err, docs) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
-        res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
-        // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
-        res.send(docs);
-    })
-};
-exports.date = function (req, res) {
-    Publications.date(req.params['from'], req.params['to'], function (err, docs) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
-        // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
-        res.send(docs);
-    })
-};
-exports.dateJournal = function (req, res) {
-    Publications.dateJournal(req.params['from'], req.params['to'], req.params['journal'], function (err, docs) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
+        // res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
         // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
         res.send(docs);
     })
@@ -52,14 +32,15 @@ exports.addPublication = function (req, res) {
         name: req.body.name,
         link: req.body.link,
         date: req.body.date,
-        journal: req.body.journal
+        journal: req.body.journal,
+        id: req.body.id
     };
     Publications.addPublication(publication, function (err) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
-        res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
+        // res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
         // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
         res.sendStatus(200);
     })
@@ -80,7 +61,6 @@ exports.deletePublication = function (req, res) {
 
 //UPDATE
 exports.updatePublication = function (req, res) {
-    console.log(req.body);
     Publications.updatePublication(req.body.id, req.body.name, req.body.link, req.body.date, req.body.journal, function (err) {
         if (err) {
             console.log(err);
