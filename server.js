@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var MongoClient = require('mongodb').MongoClient;
+var db = require('./db');
 
 var newsController = require('./controllers/news');
 var documentsOfCenterController = require('./controllers/about/documentsofcenter');
@@ -18,7 +18,6 @@ var publicationsController = require('./controllers/publications');
 var methlibController = require('./controllers/methlib');
 var tripController = require('./controllers/tripactivity');
 
-var db = require('./db');
 var app = express();
 
 app.use(bodyParser.json());
@@ -54,7 +53,7 @@ app.put('/plans', plansController.updatePlan);
 app.delete('/plans', plansController.deletePlan);
 
 app.get('/publications', publicationsController.getPublications);
-app.get('/publications/:id', publicationsController.getPublication);
+// app.get('/publications/:id', publicationsController.getPublication);
 // app.get('/publications', publicationsController.all);
 // app.get('/publications/:journal', publicationsController.journal);
 // app.get('/publications/:from/:to', publicationsController.date);

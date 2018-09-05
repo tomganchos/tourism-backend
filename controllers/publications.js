@@ -2,7 +2,6 @@ var Publications = require('../models/publications');
 
 // GET
 exports.getPublications = function(req, res) {
-    console.log(req.query);
     Publications.getPublications(req.query, function (err, docs) {
         if (err) {
             console.log(err);
@@ -10,11 +9,11 @@ exports.getPublications = function(req, res) {
         }
         // res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
         // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+        res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
         res.send(docs);
     })
 };
 exports.getPublication = function(req, res) {
-    console.log(req.params);
     Publications.getPublication(req.params['id'], function (err, docs) {
         if (err) {
             console.log(err);
@@ -22,6 +21,7 @@ exports.getPublication = function(req, res) {
         }
         // res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
         // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+        res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
         res.send(docs);
     })
 };
@@ -32,8 +32,8 @@ exports.addPublication = function (req, res) {
         name: req.body.name,
         link: req.body.link,
         date: req.body.date,
-        journal: req.body.journal,
-        id: req.body.id
+        journal: req.body.journal
+        // id: req.body.id
     };
     Publications.addPublication(publication, function (err) {
         if (err) {
@@ -42,19 +42,21 @@ exports.addPublication = function (req, res) {
         }
         // res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
         // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+        // res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
         res.sendStatus(200);
     })
 };
 
 // DELETE
 exports.deletePublication = function (req, res) {
-    Publications.deletePublication(req.body.id, function (err) {
+    Publications.deletePublication(req.query.id, function (err) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
-        res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
+        // res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
         // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+        res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
         res.sendStatus(200);
     })
 };
@@ -66,8 +68,9 @@ exports.updatePublication = function (req, res) {
             console.log(err);
             return res.sendStatus(500);
         }
-        res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
+        // res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
         // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+        res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
         res.sendStatus(200);
     })
 };
