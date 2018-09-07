@@ -7,6 +7,7 @@ exports.getPlans = function(req, res) {
             console.log(err);
             return res.sendStatus(500);
         }
+        res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
         res.send(docs);
     })
 };
@@ -14,9 +15,9 @@ exports.getPlans = function(req, res) {
 // POST
 exports.addPlan = function (req, res) {
     var plan = {
-        id: req.body.id,
+        // id: req.body.id,
         name: req.body.name,
-        year: req.body.year,
+        date: req.body.date,
         month: req.body.month,
         doc: req.body.doc
     };
@@ -31,20 +32,21 @@ exports.addPlan = function (req, res) {
 
 // DELETE
 exports.deletePlan = function (req, res) {
-    Plans.deletePlan(req.body.id, function (err) {
+    Plans.deletePlan(req.query.id, function (err) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
         // res.header('Access-Control-Allow-Origin', 'http://95.213.235.86');
         // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+        res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
         res.sendStatus(200);
     })
 };
 
 //UPDATE
 exports.updatePlan = function (req, res) {
-    Plans.updatePlan(req.body.id, req.body.name, req.body.year, req.body.month, req.body.doc, function (err) {
+    Plans.updatePlan(req.body.id, req.body.name, req.body.date, req.body.month, req.body.doc, function (err) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
